@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+/migrations
+.vscode
+.idea
+/reports/*.html
+/xminds/*.xmind
+/config/local_config.ini
