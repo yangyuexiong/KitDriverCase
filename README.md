@@ -59,7 +59,7 @@ class OrderServiceCommonKit(BaseKit, BaseDataBases):
 以订单服务-子模块创建订单为例
 
 - [/business/interfaces/order_service/kits/create_order_kit.py](business/interfaces/order_service/kits/create_order_kit.py)
-- 订单服务通用套件：OrderServiceCommonKit
+- 创建订单的通用套件：CreateOrderKit，继承：OrderServiceCommonKit
 - 定义创建订单所需要的属性和方法 如：url，环境，参数等等
 
 ```python
@@ -359,7 +359,7 @@ AC_LIST_DEBUG = [
 
 邮件账号配置：[/base_tools.py](/common/base_lib/base_tools.py)
 
-- 配置 mail_from：发件邮箱账号 和 mail_pwd：发件邮箱的授权码(可以百度一如何或获取)
+- 配置 mail_from：发件邮箱账号 和 mail_pwd：发件邮箱的授权码(可以百度一下如何或获取)
 
 ```python
 class SendEmail:
