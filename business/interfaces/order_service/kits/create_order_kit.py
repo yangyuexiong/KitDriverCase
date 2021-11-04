@@ -5,13 +5,14 @@
 # @File    : create_order_kit.py
 # @Software: PyCharm
 
-
+from all_reference import env
 from business.interfaces.order_service.kits.kits import OrderServiceCommonKit
 
 
 class CreateOrderKit(OrderServiceCommonKit):
     """创建订单"""
 
+    env = env
     createOrder = '/order/v1/ol-order/createOrder'
 
     req_json_data = {

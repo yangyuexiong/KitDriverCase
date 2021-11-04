@@ -14,3 +14,4 @@ from loguru import logger
 from common.base_lib import *
 
 R = BaseDataBases().get_redis()
+env = R.get('env')
