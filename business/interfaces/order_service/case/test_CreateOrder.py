@@ -38,6 +38,7 @@ table_dict = {
 class TestCreateOrder(BaseUnit):
     """测试创建订单"""
 
+    # @unittest.skip("pass")
     def test_001(self):
         """基本使用"""
         # 发起请求
@@ -65,4 +66,10 @@ class TestCreateOrder(BaseUnit):
     @kit_obj.assert_field(table_name='order_003', table_dict=table_dict)
     def test_002(self):
         """多表校验"""
+        logger.success('yyx')
+        logger.error('yyx')
         kit_obj.show_result_list()
+
+
+if __name__ == '__main__':
+    unittest.main()
