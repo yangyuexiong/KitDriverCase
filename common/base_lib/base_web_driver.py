@@ -24,20 +24,22 @@ from global_env import PROJECT_NAME
 
 class BaseWebDriver:
 
-    def __init__(self):
-        first_path = os.getcwd().split(PROJECT_NAME)[0] + PROJECT_NAME
-        if platform.system() == 'Darwin':
-            self.chrome_driver = first_path + '/common/chrome_driver_mac64/chromedriver'
-        elif platform.system() == 'Linux':
-            self.chrome_driver = first_path + '/common/chrome_driver_linux64/chromedriver'
-        elif platform.system() == 'Windows':
-            self.chrome_driver = first_path + '/common/chrome_driver_win32/chromedriver'
+    def __init__(self, project_name=None):
+        self.project_name = project_name if project_name else PROJECT_NAME
+        first_path = os.getcwd().split(self.project_name)[0] + self.project_name
+        platform_dict = {
+            "Darwin": first_path + '/common/chrome_driver_mac64/chromedriver',
+            "Linux": first_path + '/common/chrome_driver_linux64/chromedriver',
+            "Windows": first_path + '/common/chrome_driver_win32/chromedriver'
+        }
+        self.chrome_driver = platform_dict.get(platform.system())
+        print('chrome driver path', self.chrome_driver)
 
         self.options = webdriver.ChromeOptions()
         # self.options.add_argument('headless') # 无界面模式
-        print('chrome driver path', self.chrome_driver)
-        # self.driver = webdriver.Chrome(executable_path=self.chrome_driver, chrome_options=self.options)
+
         self.driver = webdriver.Chrome(executable_path=self.chrome_driver, options=self.options)
+        # self.driver = webdriver.Chrome(executable_path=self.chrome_driver, chrome_options=self.options)
 
     def start(self):
         """启动"""
