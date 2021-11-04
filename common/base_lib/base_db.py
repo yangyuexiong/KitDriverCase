@@ -239,6 +239,8 @@ class DbConnectionConfig:
         'port': conf.getint('mysql', 'UAT_PORT'),
     }
 
+    pre_db_connection = {}
+
     uat_es_connection = {
         'url': conf.get('es', 'ES_URL'),
         'user': conf.get('es', 'ES_USER'),
