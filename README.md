@@ -12,6 +12,43 @@ KitDriverCase接口自动化测试，套件驱动用例设计思想，包括复�
 
 以订单服务为例，订单服务看作一个公共的套件即：OrderServiceCommonKit，一个订单服务下有很多子模块，那么把这些子模块看作很多的Kit，都继承 OrderServiceCommonKit。
 
+### 安装
+
+- 安装:python3.9.x
+
+```text
+Windows:
+    https://www.python.org/ftp/python/3.9.4
+
+Mac:
+    https://www.python.org/ftp/python/3.9.4/python-3.9.4-macosx10.9.pkg
+
+Linux:
+    wget https://www.python.org/ftp/python/3.9.4/Python-3.9.4.tgz
+```
+
+- 库
+
+```shell script
+pip3 install urllib3
+pip3 install requests
+pip3 install redis
+pip3 install pymysql
+pip3 install selenium
+pip3 install xlrd
+pip3 install openpyxl
+pip3 install pandas
+pip3 install xmind
+pip3 install shortuuid
+# 统一安装
+pip3 install urllib3 requests redis pymysql selenium xlrd openpyxl pandas xmind shortuuid
+```
+
+- 安装 Redis 并启动
+```text
+https://redis.io
+```
+
 ### 开始
 
 以订单服务为例
