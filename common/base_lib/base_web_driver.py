@@ -27,10 +27,16 @@ class BaseWebDriver:
     def __init__(self, project_name=None):
         self.project_name = project_name if project_name else PROJECT_NAME
         first_path = os.getcwd().split(self.project_name)[0] + self.project_name
+
+        """
+        当前需要使用谷歌浏览器版本: 95.0.4638.54
+        使用其他版本，需要下载后放在对应目录中
+        http://chromedriver.storage.googleapis.com/index.html
+        """
         platform_dict = {
             "Darwin": first_path + '/common/chrome_driver_mac64/chromedriver',
             "Linux": first_path + '/common/chrome_driver_linux64/chromedriver',
-            "Windows": first_path + '/common/chrome_driver_win32/chromedriver'
+            "Windows": first_path + '/common/chrome_driver_win32/chromedriver.exe'
         }
         self.chrome_driver = platform_dict.get(platform.system())
         print('chrome driver path', self.chrome_driver)
