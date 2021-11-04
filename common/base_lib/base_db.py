@@ -254,7 +254,7 @@ class BaseDataBases(DbConnectionConfig):
     @classmethod
     def return_default_db(cls, env):
         """
-        默认 onlien 库
+        默认库
         """
         if env == 'uat':
             return MyPyMysql(**cls.uat_db_connection)
@@ -266,7 +266,7 @@ class BaseDataBases(DbConnectionConfig):
             print(msg)
             return False
 
-    def get_env(self):
+    def get_env(self, default_env="uat"):
         """
         获取环境
         :return:
@@ -274,9 +274,8 @@ class BaseDataBases(DbConnectionConfig):
         try:
             return self.get_redis().get('env')
 
-        except BaseException as e:
-            print('get_env -> redis err -> {}'.format(str(e)))
-            return False
+        except:
+            return default_env
 
     def get_redis(self):
         """
