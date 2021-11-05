@@ -47,6 +47,11 @@ class BaseWebDriver:
         self.driver = webdriver.Chrome(executable_path=self.chrome_driver, options=self.options)
         # self.driver = webdriver.Chrome(executable_path=self.chrome_driver, chrome_options=self.options)
 
+        self.url = ""
+
+    def set_url(self, url):
+        self.url = url
+
     def start(self):
         """启动"""
         start_time = datetime.now()
