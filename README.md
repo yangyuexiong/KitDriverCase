@@ -61,7 +61,7 @@ https://redis.io
 
 以订单服务为例
 
-- [/business/interfaces/order_service/kits/kits.py](business/interfaces/order_service/kits/kits.py)
+- [/business/interfaces/order_service/kits/kits.py](business/api/order_service/kits/kits.py)
 - 继承基础套件：BaseKit(包括了很多基础方法，下面介绍)
 - 数据库连接类：BaseDataBases(下面会介绍如何配置数据库)
 - 类中定义一些你所需要的公共属性和方法 如：base url，环境，参数等等
@@ -95,12 +95,12 @@ class OrderServiceCommonKit(BaseKit, BaseDataBases):
 
 以订单服务-子模块创建订单为例
 
-- [/business/interfaces/order_service/kits/create_order_kit.py](business/interfaces/order_service/kits/create_order_kit.py)
+- [/business/interfaces/order_service/kits/create_order_kit.py](business/api/order_service/kits/create_order_kit.py)
 - 创建订单的通用套件：CreateOrderKit，继承：OrderServiceCommonKit
 - 定义创建订单所需要的属性和方法 如：url，环境，参数等等
 
 ```python
-from business.interfaces.order_service.kits.kits import OrderServiceCommonKit
+from business.api.order_service.kits.kits import OrderServiceCommonKit
 
 
 class CreateOrderKit(OrderServiceCommonKit):
@@ -134,16 +134,16 @@ class CreateOrderKit(OrderServiceCommonKit):
         """assert_order3"""
 ```
 
-### 套件编写
+### 用例编写
 
-- [/business/interfaces/order_service/case/test_CreateOrder.py](business/interfaces/order_service/case/test_CreateOrder.py)
+- [/business/interfaces/order_service/case/test_CreateOrder.py](business/api/order_service/case/test_CreateOrder.py)
 - 实例化套件：kit_obj = CreateOrderKit()，使用到的属性，方法等都会在kit_obj实例中
 - 定义请求体：url，headers，send
 - 以下代码是伪代码例子，实际需要根据你的真实参数，请求体，方法
 
 ```python
 from all_reference import *
-from business.interfaces.order_service.kits.create_order_kit import CreateOrderKit
+from business.api.order_service.kits.create_order_kit import CreateOrderKit
 
 kit_obj = CreateOrderKit()
 
@@ -240,7 +240,7 @@ ES_PWD = 123456
 
 - base_db.py 中 DbConnectionConfig 定义配置 redis_obj,uat_db_connection,uat_es_connection
 - base_db.py 中 BaseDataBases 定义连接 get_redis(),return_db(),return_es() 具体连接里面的逻辑根据你的需要去实现
-- 定义好并调通后，你可以回到上面 [create_order_kit.py](business/interfaces/order_service/kits/create_order_kit.py)使用它
+- 定义好并调通后，你可以回到上面 [create_order_kit.py](business/api/order_service/kits/create_order_kit.py)使用它
 
 ```python
 class DbConnectionConfig:
