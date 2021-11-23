@@ -7,7 +7,7 @@
 
 
 from all_reference import *
-from business.interfaces.order_service.kits.supplementary_order_kit import SupplementaryOrderKit
+from business.api.order_service.kits.supplementary_order_kit import SupplementaryOrderKit
 
 kit_obj = SupplementaryOrderKit()
 

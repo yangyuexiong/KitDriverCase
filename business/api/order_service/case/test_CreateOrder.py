@@ -7,7 +7,7 @@
 
 
 from all_reference import *
-from business.interfaces.order_service.kits.create_order_kit import CreateOrderKit
+from business.api.order_service.kits.create_order_kit import CreateOrderKit
 
 kit_obj = CreateOrderKit()
 

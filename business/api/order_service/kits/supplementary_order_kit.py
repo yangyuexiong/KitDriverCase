@@ -5,7 +5,7 @@
 # @File    : supplementary_order_kit.py
 # @Software: PyCharm
 
-from business.interfaces.order_service.kits.kits import OrderServiceCommonKit
+from business.api.order_service.kits.kits import OrderServiceCommonKit
 
 
 class SupplementaryOrderKit(OrderServiceCommonKit):

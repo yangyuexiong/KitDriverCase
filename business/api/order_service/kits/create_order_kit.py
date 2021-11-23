@@ -6,7 +6,7 @@
 # @Software: PyCharm
 
 from all_reference import env
-from business.interfaces.order_service.kits.kits import OrderServiceCommonKit
+from business.api.order_service.kits.kits import OrderServiceCommonKit
 
 
 class CreateOrderKit(OrderServiceCommonKit):
