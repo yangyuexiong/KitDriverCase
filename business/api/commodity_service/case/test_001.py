@@ -6,8 +6,8 @@
 # @Software: PyCharm
 
 
+from all_reference import unittest, BaseUnit, env
 from common.base_lib.base_kit import BaseKit
-from common.base_lib.base_unit import BaseUnit
 
 kit_obj = BaseKit()
 
@@ -17,5 +17,8 @@ class TestDemo001(BaseUnit):
 
     def test_001(self):
         """1"""
+        print(env)
 
-        print('okc')
+
+if __name__ == '__main__':
+    unittest.main()
