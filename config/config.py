@@ -16,7 +16,8 @@ from global_env import PROJECT_NAME
 def get_config():
     """获取配置文件"""
 
-    conf = configparser.ConfigParser()
+    # conf = configparser.ConfigParser()
+    conf = configparser.RawConfigParser()
 
     pf = platform.system()
     root_dir = os.getcwd().split(PROJECT_NAME)[0]
@@ -54,4 +55,4 @@ def get_config():
 
 
 if __name__ == '__main__':
-    redis_obj = get_config()
+    conf = get_config()

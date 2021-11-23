@@ -11,12 +11,13 @@ from functools import wraps
 from types import MethodType, FunctionType
 
 import requests
+from all_reference import env
 
 
 class BaseKit:
     """测试工具包基类"""
 
-    env = ''
+    env = env
     assert_switch = False
     test_data = {
         "key": "value"
@@ -97,7 +98,7 @@ class BaseKit:
         构造请求
         :param method: 请求方式
         :param is_enc: 是否加密
-        :param kwargs: 请求体以及扩展参数
+        :param kwargs: 定制化部分(请求体以及扩展参数)
         :return:
         """
 
@@ -220,13 +221,6 @@ class BaseKit:
             print(msg)
             assert 1 == 0, msg
 
-    def show_result_list(self):
-        """字段断言输出"""
-        if self.err_result_list:
-            err_detail = '\n'.join(self.err_result_list)
-            self.err_result_list.clear()
-            assert False, '{}'.format(err_detail)
-
     @classmethod
     def assert_field(cls, table_name, table_dict):
         def decorator(func):
@@ -243,3 +237,12 @@ class BaseKit:
             return wrapper
 
         return decorator
+
+    def show_result_list(self):
+        """
+        字段断言输出,在调用 BaseKit.assert_field 后调用
+        """
+        if self.err_result_list:
+            err_detail = '\n'.join(self.err_result_list)
+            self.err_result_list.clear()
+            assert False, '{}'.format(err_detail)

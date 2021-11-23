@@ -39,7 +39,7 @@ class MyPyMysql:
                 db=self.db)
             return database_obj
         except BaseException as e:
-            return '连接数据库参数异常{}'.format(str(e) if self.debug else '')
+            return '连接数据库参数异常{}'.format(str(e))
 
     def create_data(self, sql=None):
         """
@@ -55,7 +55,7 @@ class MyPyMysql:
                 return 'create success'
         except BaseException as e:
             cur.rollback()
-            return 'create:出现错误:{}'.format(str(e) if self.debug else '')
+            return 'create:出现错误:{}'.format(str(e))
 
     def read_data(self, sql=None):
         """
@@ -102,7 +102,7 @@ class MyPyMysql:
                 # print(new_list)
                 return new_list
         except BaseException as e:
-            return 'read:出现错误:{}'.format(str(e) if self.debug else '')
+            return 'read:出现错误:{}'.format(str(e))
 
     def update_data(self, sql=None):
         """
@@ -118,7 +118,7 @@ class MyPyMysql:
                 return 'update success'
         except BaseException as e:
             cur.rollback()
-            return 'update:出现错误:{}'.format(str(e) if self.debug else '')
+            return 'update:出现错误:{}'.format(str(e))
 
     def del_data(self, sql=None):
         """
@@ -134,7 +134,7 @@ class MyPyMysql:
                 return 'del success'
         except BaseException as e:
             cur.rollback()
-            return 'del:出现错误:{}'.format(str(e) if self.debug else '')
+            return 'del:出现错误:{}'.format(str(e))
 
     def select(self, sql=None, only=None, size=None):
         """
@@ -166,7 +166,7 @@ class MyPyMysql:
                             except BaseException as e:
                                 new_r[k] = v
                                 # print(k, v, type(v))
-                                # print("select.__func 异常:{}".format(str(e) if self.debug else ''))
+                                # print("select.__func 异常:{}".format(str(e)))
                         elif isinstance(v, datetime):
                             new_r[k] = str(v)
                         else:
@@ -215,7 +215,7 @@ class MyPyMysql:
                     result = __func(rs)
                     return result
         except BaseException as e:
-            return 'select:出现错误:{}'.format(str(e) if self.debug else '')
+            return 'select:出现错误:{}'.format(str(e))
 
 
 class DbConnectionConfig:

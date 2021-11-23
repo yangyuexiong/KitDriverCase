@@ -5,13 +5,16 @@
 # @File    : all_reference.py
 # @Software: PyCharm
 
+import os
 import unittest
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from loguru import logger
 
-from common.base_lib import *
+from common.base_lib.base_unit import BaseUnit
 
-R = BaseDataBases().get_redis()
-env = R.get('env')
+env = os.environ.get('env', 'uat')
+debug = os.environ.get('DEBUG', True)
+print('env:{}'.format(env))
+print('debug:{}'.format(debug))
