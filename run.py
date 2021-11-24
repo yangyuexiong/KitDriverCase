@@ -14,7 +14,7 @@ import argparse
 import unittest
 from ast import literal_eval
 
-from all_reference import R
+from common.base_lib.base_db import BaseDataBases
 from common.base_lib.JsonTestRunner import JsonTestRunner
 from common.base_lib.base_tools import BaseTools, SendEmail, gen_branch
 
@@ -22,35 +22,40 @@ curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(os.path.split(rootPath)[0])
 
+R = BaseDataBases.get_redis()
+
 
 def gen_shell():
     """生成python shell命令"""
     parser = argparse.ArgumentParser(description="作者:杨跃雄")
-    parser.add_argument('--title', type=str, default=None, help='报告标题:如-平台发展自动化测试报告')
-    parser.add_argument('--desc', type=str, default=None, help='报告描述:如-交易域')
-    parser.add_argument('--tester', type=str, default=None, help='测试人员')
+    parser.add_argument('--title', type=str, default='自动化测试报告', help='报告标题:如-平台发展自动化测试报告')
+    parser.add_argument('--desc', type=str, default='描述', help='报告描述:如-交易域')
+    parser.add_argument('--tester', type=str, default='测试人员:yyx', help='测试人员')
     parser.add_argument('--env', type=str, default='uat', help='运行环境(uat,pre,prod)')
     parser.add_argument('--cf', type=str, default='*', help='默认全部,否则:指定路径用于配置jenkins区分job')
     parser.add_argument('--fp', type=str, default='test*.py', help='默认test开头全部,否则:指定某个文件')
-    parser.add_argument('--mail', type=int, default=0, help='是否发送邮件(1:是,0:否)默认为0')
+    parser.add_argument('--is_mail', type=int, default=0, help='是否发送邮件(1:是,0:否)默认为0')
     parser.add_argument('--is_print', type=int, default=0, help='打印json格式的测试结果(1:是,0:否)默认为0')
     parser.add_argument('--is_xm', type=int, default=0, help='生成XMind(1:是,0:否)默认为0')
     parser.add_argument('--is_debug', type=int, default=0, help='是否debug模式(1:是,0:否)默认为0')
+    parser.add_argument('--is_dd_push', type=int, default=1, help='是否钉钉推送(1:是,0:否)默认为1')
     args = parser.parse_args()
     env = args.env if args.env in ['uat', 'pre', 'prod'] else 'uat'
     cf = os.getcwd() if args.cf == "*" else args.cf
     fp = args.fp
-    mail = args.mail
+    is_mail = args.is_mail
     is_print = args.is_print
     title = args.title
     description = args.desc
     tester = args.tester
     is_xm = args.is_xm
     is_debug = args.is_debug
+    is_dd_push = args.is_dd_push
 
+    is_dd_push = bool(is_dd_push)
     is_debug = bool(is_debug)
     is_print = bool(is_print)
-    is_mail = bool(mail)
+    is_mail = bool(is_mail)
     is_xm = bool(is_xm)
 
     main_init = {
@@ -63,7 +68,8 @@ def gen_shell():
         'is_debug': is_debug,
         'is_print': is_print,
         'is_mail': is_mail,
-        'is_xm': is_xm
+        'is_xm': is_xm,
+        'is_dd_push': is_dd_push
     }
     print('====================')
     print('执行环境:{}'.format(env))
@@ -73,10 +79,12 @@ def gen_shell():
     print('是否打印:{}'.format(is_print))
     print('邮件发送:{}'.format(is_mail))
     print('XMind:{}'.format(is_xm))
+    print('钉钉推送:{}'.format(is_dd_push))
     print(main_init)
-    print('Command:python3 run.py --title {} --desc {} --tester {} --is_print {} --env {} --cf {} --mail {}'.format(
-        title, description, tester, is_print, env, cf, mail
-    ))
+    print(
+        'Command:python3 run.py --title {} --desc {} --tester {} --is_print {} --env {} --cf {} --mail {} --is_dd_push {}'.format(
+            title, description, tester, is_print, env, cf, is_mail, is_dd_push
+        ))
     print('====================')
     return main_init
 
@@ -94,6 +102,7 @@ class MainTest:
     - is_print -- 打印json格式的测试结果
     - is_xm -- 生成XMind
     - is_debug -- 调试模式
+    - is_dd_push -- 钉钉推送
     """
 
     def __init__(self, env, path, file_prefix=None, is_mail=False, title=None, description=None, tester=None,
@@ -145,17 +154,8 @@ class MainTest:
         """测试开始"""
         print('========== 测试开始 ==========')
 
-        # 环境默认
-        if not R.get(self.env):
-            R.set('env', 'uat')
-
-        # 设置 DEBUG
-        if self.pf == 'Linux':
-            print('linux platform set DEBUG False -> int -> 0')
-            R.set('DEBUG', 0)
-        else:
-            print('local platform set DEBUG True -> int -> 1')
-            R.set('DEBUG', 1)
+        os.environ['env'] = self.env
+        # os.environ['debug'] = self.is_debug
 
     def end(self):
         """测试结束"""
@@ -270,5 +270,5 @@ if __name__ == '__main__':
     
     """
     main_init = gen_shell()
-    main_test = MainTest(**main_init)
-    main_test.main()
+    # main_test = MainTest(**main_init)
+    # main_test.main()
