@@ -322,24 +322,46 @@ class BaseTools:
         __save()
 
     @classmethod
-    def dd_push(cls, report_result, report_name):
+    def dd_push(cls, report_result, report_name, markdown_text=None):
         """钉钉推送"""
         if platform.system() == "Linux":
             report_url = 'http://10.4.184.48:8000/{}'.format(report_name)
         else:
             report_url = os.getcwd().split(PROJECT_NAME)[0] + PROJECT_NAME + '/reposts/{}'.format(report_name)
 
-        msg = """{}\n报告地址: {}""".format(report_result, report_url)
         url = DING_TALK_URL
 
         if not url.strip():
             raise TypeError('钉钉推送失败: DING_TALK_URL 未配置')
 
         headers = {"Content-Type": "application/json;charset=utf-8"}
+
+        msg = """{}\n报告地址: {}""".format(report_result, report_url)
+        """
         json_data = {
             "msgtype": "text",
             "text": {
                 "content": msg
+            },
+            "at": {
+                "atMobiles": AT_MOBILES,
+                "atUserIds": AT_USER_IDS,
+                "isAtAll": IS_AT_ALL
+            }
+        }
+
+        
+        """
+
+        demo_text = "#### 测试报告:{}  \n  > 测试人员:{}  \n  > 开始时间:{}  \n  > 结束时间:{}  \n  > 持续时间:{}  \n  > 总数:{}  \n  > 成功数:{}  \n  > 失败数:{}  \n  > 错误数:{}  \n  > 通过率:{}  \n  > 报告地址:[前往](1)"
+
+        report_link = "  \n  > 报告地址:[{}]({})".format(report_url, report_url)
+
+        json_data = {
+            "msgtype": "markdown",
+            "markdown": {
+                "title": "测试报告",
+                "text": markdown_text + report_link
             },
             "at": {
                 "atMobiles": AT_MOBILES,

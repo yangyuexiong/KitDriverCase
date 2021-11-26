@@ -22,7 +22,7 @@ curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(os.path.split(rootPath)[0])
 
-R = BaseDataBases.get_redis()
+R = BaseDataBases().get_redis()
 
 
 def gen_shell():
@@ -212,6 +212,19 @@ class MainTest:
             self.json_test_result.get('error_count'),
             self.json_test_result.get('pass_rate'),
         )
+        markdown_text = "#### {}  \n  > {}  \n  > 测试人员:{}  \n  > 开始时间:{}  \n  > 结束时间:{}  \n  > 持续时间:{}  \n  > 总数:{}  \n  > 成功数:{}  \n  > 失败数:{}  \n  > 错误数:{}  \n  > 通过率:{}  \n  >".format(
+            self.title,
+            self.description,
+            self.tester,
+            self.json_test_result.get('start_time'),
+            self.json_test_result.get('stop_time'),
+            self.json_test_result.get('duration'),
+            self.json_test_result.get('all_count'),
+            self.json_test_result.get('success_count'),
+            self.json_test_result.get('failure_count'),
+            self.json_test_result.get('error_count'),
+            self.json_test_result.get('pass_rate'),
+        )
         if self.is_mail:
             print('发送报告到邮箱')
             SendEmail(DEBUG=self.is_debug).send_attach(
@@ -225,7 +238,11 @@ class MainTest:
 
         if self.is_dd_push:
             # print('调试:不钉钉推送')
-            BaseTools.dd_push(report_result=self.test_result_summary, report_name=self.new_test_report_name)
+            BaseTools.dd_push(
+                report_result=self.test_result_summary,
+                report_name=self.new_test_report_name,
+                markdown_text=markdown_text
+            )
         else:
             print('不钉钉推送')
 
